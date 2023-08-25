@@ -27,9 +27,15 @@ class CategoriesViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-       self.performSegue(withIdentifier: "toExpenseDetail", sender: self)
-       
+        //self.performSegue(withIdentifier: "toExpenseDetail", sender: self)
+        let selectedCategory = categories[indexPath.row]
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let expensesViewController = storyboard.instantiateViewController(withIdentifier: "ExpensesViewController") as? ExpensesViewController {
+            expensesViewController.category = selectedCategory
+            expensesViewController.expenses = expensesByCategory[selectedCategory]!
+            navigationController?.pushViewController(expensesViewController, animated: true)
+        }
+                                                 
     }
 
 
@@ -74,7 +80,7 @@ class CategoriesViewController: UIViewController, UITableViewDataSource, UITable
     func configureViewController() {
         title = "Categories"
         expensesByCategory = ExpenseHelper.getExpensesByCategory(expenses: Expense.expenses)
-        print(expensesByCategory)
+        //print(expensesByCategory)
         categories = Array(expensesByCategory.keys)
 //        print(categories)
     }

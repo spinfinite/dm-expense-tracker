@@ -26,6 +26,8 @@ class ExpenseHelper {
     
     /**
      4.2 Create a static function called `getExpensesByCategory` that accepts an array of `Expense` and returns a dictionary where each key is a category and each value is an array of `Expense` belonging to that category. Feel free to run the provided test to know if your code is correct.
+        For me to understand this function properly, it is helpful to visualize the array from Expense and then picture from the array the 'category' being the key and the rest of the information being the value.
+     
      */
     static func getExpensesByCategory(expenses: [Expense]) -> [String: [Expense]] {
         
@@ -35,14 +37,13 @@ class ExpenseHelper {
             if var categoryExpenses = expensesByCategory[expense.category] {
                 categoryExpenses.append(expense)
                 expensesByCategory[expense.category] = categoryExpenses
+
             } else {
                     expensesByCategory[expense.category] = [expense]
             }
         }
-
+        print(expensesByCategory)
         return expensesByCategory
     }
         
-        
-    
 }

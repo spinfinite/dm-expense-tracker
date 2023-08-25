@@ -9,15 +9,13 @@ import UIKit
 
 class ExpensesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    let expenses = Expense.expenses
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return expenses.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.expenseReuseID, for: indexPath)
-        cell.textLabel?.text = "\(expenses[indexPath.row])"
+        cell.textLabel?.text = "\(expenses[indexPath.row].title)" + "   " + "$" + "\(expenses[indexPath.row].amount)"
         //print(cell)
         return cell
     }
@@ -28,11 +26,12 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBOutlet weak var expensesTableView: UITableView!
     
+    @IBOutlet weak var displayExpenseAmount: UILabel!
     /**
      7.1 Create a String variable for the category and an `[Expense]` variable for the expenses.
     **/
     var category: String = ""
-    var expense: [Expense] = []
+    var expenses: [Expense] = []
     /**
      7.2 Create an initializer to initialize the two variables. You may find the following article helpful: https://www.hackingwithswift.com/example-code/uikit/how-to-use-dependency-injection-with-storyboards.
      */
@@ -53,7 +52,8 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
      */
     func configureViewController() {
         
-        
+        var totalExpense = ExpenseHelper.calculateTotalSpent(expenses: expenses)
+        displayExpenseAmount.text = "You spent $\(totalExpense)on health."
     }
     
     /**
@@ -61,7 +61,7 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
      10.2 Configure the tableview to display the correct data.
      */
     func configureTableView() {
-//        expensesTableView.dataSource = self
-//        expensesTableView.delegate = self
+        expensesTableView.dataSource = self
+        expensesTableView.delegate = self
     }
 }
