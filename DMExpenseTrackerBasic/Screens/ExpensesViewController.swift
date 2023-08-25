@@ -9,14 +9,16 @@ import UIKit
 
 class ExpensesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return expenses.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.expenseReuseID, for: indexPath)
-        cell.textLabel?.text = "\(expenses[indexPath.row].title)" + "   " + "$" + "\(expenses[indexPath.row].amount)"
-        //print(cell)
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.expenseReuseID, for: indexPath) as! ExpenseCell
+        cell.set(expense: expenses[indexPath.row])
+        
         return cell
     }
     
@@ -30,7 +32,7 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
     /**
      7.1 Create a String variable for the category and an `[Expense]` variable for the expenses.
     **/
-    var category: String = ""
+    var category: String = "" // is modified in CategoriesViewController
     var expenses: [Expense] = []
     /**
      7.2 Create an initializer to initialize the two variables. You may find the following article helpful: https://www.hackingwithswift.com/example-code/uikit/how-to-use-dependency-injection-with-storyboards.
@@ -53,7 +55,7 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
     func configureViewController() {
         
         var totalExpense = ExpenseHelper.calculateTotalSpent(expenses: expenses)
-        displayExpenseAmount.text = "You spent $\(totalExpense)on health."
+        displayExpenseAmount.text = "You spent $" + String(format: "%.2f", totalExpense) + " on" + " \(category)."
     }
     
     /**
